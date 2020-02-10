@@ -7,7 +7,7 @@ import html2text as h2t
 class Main():
 
     def __init__(self):
-        self.header_files = ['testsuite', 'testcase_name', 'node_order', 'version', 'summary', 'preconditions', 'execution_type', 'status', 'steps', ]
+        self.header_files = ['testsuite', 'testcase_name', 'node_order', 'version', 'summary', 'preconditions', 'execution_type', 'status', 'step_number', 'actions', 'expectedresults']
 
     def writeCsvFile(self, path_file, content):
         header_fields = self.header_files
@@ -40,22 +40,35 @@ class Main():
             testcase = {}
             testcase['testsuite'] = item.getparent().attrib['name']
             testcase['testcase_name'] = item.attrib['name']
-            testcase['node_order'] = item.find('node_order').text
-            testcase['version'] = item.find('version').text
-            testcase['summary'] = h2t.html2text(item.find('summary').text)
-            testcase['preconditions'] = h2t.html2text(item.find('preconditions').text).replace('\\-','')
-            testcase['execution_type'] = item.find('execution_type').text
-            testcase['status'] = item.find('status').text
-            testcase['steps'] = self.parseSteps(item.find('steps')).replace('\n', '').replace('#|#', ']\n')
+            testcase[self.header_files[2]] = item.find(self.header_files[2]).text
+            testcase[self.header_files[3]] = item.find(self.header_files[3]).text
+            testcase[self.header_files[4]] = h2t.html2text(item.find(self.header_files[4]).text)
+            testcase[self.header_files[5]] = h2t.html2text(item.find(self.header_files[5]).text).replace('\\-','')
+            testcase[self.header_files[6]] = item.find(self.header_files[6]).text
+            testcase[self.header_files[7]] = item.find(self.header_files[7]).text
+            lst_steps = self.parseSteps(item.find('steps'))
+            testcase[self.header_files[8]] = lst_steps[0][self.header_files[8]]
+            testcase[self.header_files[9]] = lst_steps[0][self.header_files[9]]
+            testcase[self.header_files[10]] = lst_steps[0][self.header_files[10]]
             testcases.append(testcase)
+            for step in lst_steps[1:]:
+                testcases.append(self.createTestCaseOnlySteps(step))
         return testcases
+    def createTestCaseOnlySteps(self, step):
+        steps_testcase = { key: '' for key in self.header_files[:8] }
+        steps_testcase[self.header_files[8]] = step[self.header_files[8]]
+        steps_testcase[self.header_files[9]] = step[self.header_files[9]]
+        steps_testcase[self.header_files[10]] = step[self.header_files[10]]
+        return steps_testcase 
 
     def parseSteps(self, element):
-        steps = ''
+        steps = []
         for step in element.iter('step'):
-            steps += h2t.html2text(step.find('step_number').text).strip() + ' - Ação do Usuário ['
-            steps += h2t.html2text(step.find('actions').text).strip() + '] - Resultado Esperado ['
-            steps += h2t.html2text(step.find('expectedresults').text).strip() + '#|#'
+            register = {}
+            register[self.header_files[8]] = h2t.html2text(step.find(self.header_files[8]).text).strip()
+            register[self.header_files[9]] = h2t.html2text(step.find(self.header_files[9]).text).strip()
+            register[self.header_files[10]] =  h2t.html2text(step.find(self.header_files[10]).text).strip()
+            steps.append(register)
         return steps
 
 
@@ -65,8 +78,6 @@ if __name__ == '__main__':
     if (m.validationArgs(sys.argv)):
         xmlFilePath = m.extractArg('--xmlfile', sys.argv)
         csvFilePath = m.extractArg('--csvfile', sys.argv)
-    # xmlFilePath = 'gestrat-deep.xml'
-    # csvFilePath = 'output.csv'
         testlinkTestSuite = m.readTestlinkXmlFile(xmlFilePath)
         m.writeCsvFile(csvFilePath, testlinkTestSuite)
     else:

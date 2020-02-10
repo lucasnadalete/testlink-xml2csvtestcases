@@ -6,3 +6,5 @@ venv/*
 out/*
 gestrat-deep.xml
 output.csv
+.vscode/*
+.DS_Store

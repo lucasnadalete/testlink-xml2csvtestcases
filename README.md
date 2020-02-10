@@ -19,7 +19,7 @@ Windows:
 ## Creating venv and preparing environment
     python3.x -m venv venv/
     source venv/bin/activate
-    pip install -r dependencies.txt (needs to be in the same VENV used in project folder)
+    pip install -r requirements.txt # needs to be in the same VENV used in project folder
     
 ## To execute Python file direct the project
     Linux: python xml_converter.py --xmlfile=<path_jira_file.xml> --csvfile=<path_requirement_file.csv>
