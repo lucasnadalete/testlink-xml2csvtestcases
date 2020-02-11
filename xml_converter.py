@@ -11,7 +11,7 @@ class Main():
 
     def writeCsvFile(self, path_file, content):
         header_fields = self.header_files
-        with open(path_file, 'w', newline='') as file:
+        with open(path_file, 'w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             # Header row
             writer.writerow(header_fields)
