@@ -1,6 +1,6 @@
 altgraph==0.17
 beautifulsoup4==4.8.2
 html2text==2020.1.16
-lxml==4.4.2
+lxml==4.6.3
 PyInstaller==3.6
 soupsieve==1.9.5
