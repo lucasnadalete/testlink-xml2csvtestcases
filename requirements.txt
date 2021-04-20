@@ -1,6 +1,11 @@
 altgraph==0.17
-beautifulsoup4==4.8.2
+beautifulsoup4==4.9.3
 html2text==2020.1.16
-lxml==4.4.2
-PyInstaller==3.6
-soupsieve==1.9.5
+lxml==4.6.3
+macholib==1.14
+packaging==20.9
+pip-review==1.1.0
+pyinstaller==4.3
+pyinstaller-hooks-contrib==2021.1
+pyparsing==2.4.7
+soupsieve==2.2.1
