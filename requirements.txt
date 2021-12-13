@@ -1,7 +1,7 @@
 altgraph==0.17
 beautifulsoup4==4.9.3
 html2text==2020.1.16
-lxml==4.6.3
+lxml==4.6.5
 macholib==1.14
 packaging==20.9
 pip-review==1.1.0
